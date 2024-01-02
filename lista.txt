@@ -1,0 +1,30 @@
+.global main
+.extern printf
+main:
+    LDR R0, =filename       @ Open read file
+    MOV R1, #0
+    MOV R2, #0
+    MOV R7, #5
+    SVC 0
+
+    LDR R1, =puntos         @ Load address of array 'puntos'
+    MOV R2, #36             @ Total bytes for 9 integers (each integer is 4 bytes)
+    MOV R7, #3              @ Read file
+    SVC 0
+
+    MOV R7, #6              @ Close file
+    SVC 0
+
+    @ Print the 'puntos' array
+    LDR R0, =format         @ Load address of format string
+    LDR R1, =puntos         @ Load address of array 'puntos'
+    MOV R7, #0              @ Set syscall number 0 for 'printf'
+    BL printf               @ Call printf function
+
+    MOV R7, #1              @ Exit
+    SVC 0
+
+.data
+filename: .asciz "write.txt"
+puntos: .skip 36            @ Reserve space for 9 integers (9 * 4 bytes each)
+format: .asciz "%d\n"      @ Format string for printing integers with a newline
