@@ -16,10 +16,15 @@ main:
     SVC 0
 
     @ Print the 'puntos' array
-    LDR R0, =format         @ Load address of format string
-    LDR R1, =puntos         @ Load address of array 'puntos'
+    LDR R0, =puntos         @ Load address of array 'puntos'
+    MOV R1, #0
+print_loop:
+    LDR R2, [R0], #4        @ Load an integer from 'puntos' array into R2
     MOV R7, #0              @ Set syscall number 0 for 'printf'
+    LDR R0, =format         @ Load address of format string
     BL printf               @ Call printf function
+    CMP R1, #32             @ Check if reached end of array (9 integers * 4 bytes each)
+    BNE print_loop          @ If not, continue printing
 
     MOV R7, #1              @ Exit
     SVC 0
