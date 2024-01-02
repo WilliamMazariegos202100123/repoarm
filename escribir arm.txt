@@ -1,0 +1,21 @@
+﻿.global main
+main:
+    LDR R0, =filename		@open create file
+    MOV R1, #0x42
+    MOV R2, #384
+    MOV R7, #5
+    SVC 0
+
+    LDR R1,=bufferascii     @write file
+    MOV R2, #11
+    MOV R7, #4
+    SVC 0
+
+    MOV R7, #6              @ close file
+    SVC 0
+
+    MOV R7, #1              @ exit
+    SVC 0                   
+.data
+filename: .asciz "write.txt"
+bufferascii: .asciz "Hola mundo como estas\n"
