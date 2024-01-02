@@ -1,0 +1,25 @@
+.global main
+main:
+    LDR R0, =filename       @open read file
+    MOV R1, #0
+    MOV R2, #0
+    MOV R7, #5
+    SVC 0
+
+    LDR R1, =bufferascii    @ read file
+    MOV R2, #11
+    MOV R7, #3
+    SVC 0
+
+    MOV R7, #6              @ close file
+    SVC 0
+
+    LDR R0, =bufferascii    @print buffer
+    BL printf
+
+    MOV R7, #1              @ exit
+    SVC 0
+    
+.data
+filename: .asciz "write.txt"
+bufferascii: .asciz
